@@ -1,0 +1,21 @@
+Django>=5.0
+djangorestframework
+celery
+redis
+gunicorn
+psycopg2-binary  # If using Postgres, or 'mysqlclient' for MariaDB
+mysqlclient
+python-decouple
+django-cors-headers
+django-filter
+drf-spectacular  # For API Documentation
+sentry-sdk       # For Error Logging
+requests         # For M-Pesa/SMS APIs
+djangorestframework-simplejwt
+
+# ML/AI for Churn Prevention
+scikit-learn==1.5
+xgboost==2.1
+pandas==2.2
+numpy==1.26
+prophet==1.1
