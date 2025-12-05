@@ -9,7 +9,7 @@ class PricingPlan(models.Model):
     name = models.CharField(max_length=50)  # e.g., "1 Hour Bundle"
     price = models.DecimalField(max_digits=8, decimal_places=2)  # e.g., 10.00
     duration_minutes = models.IntegerField()  # e.g., 60
-    speed_limit = models.CharField(max_length=20, help_text="e.g. '2M/5M'")
+    speed_limit = models.CharField(max_length=20, help_text="e.g. '2Mbs/5Mbs'")
     
     def __str__(self):
         return f"{self.name} ({self.price} KES)"

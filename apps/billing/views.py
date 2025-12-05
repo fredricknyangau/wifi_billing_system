@@ -128,3 +128,29 @@ class MpesaCallbackView(APIView):
         except Exception as e:
             logger.error(f"Callback Error: {str(e)}")
             return Response
+
+class CheckTransactionStatusView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, phone):
+        # Clean phone number
+        phone = phone.strip()
+        
+        # Find the latest transaction for this phone
+        transaction = Transaction.objects.filter(phone_number=phone).order_by('-transaction_date').first()
+
+        if not transaction:
+            return Response({'status': 'not_found'}, status=status.HTTP_404_NOT_FOUND)
+
+        if transaction.status == 'Completed':
+            # If completed, find the voucher we created
+            # We assume the latest voucher for this plan/time is the one
+            # Ideally, link Voucher to Transaction in models, but this works for now
+            voucher = Voucher.objects.filter(plan__price=transaction.amount, status='ACTIVE').last()
+            
+            return Response({
+                'status': 'Completed',
+                'voucher_code': voucher.code if voucher else 'ERROR-NO-CODE'
+            })
+            
+        return Response({'status': transaction.status})        
